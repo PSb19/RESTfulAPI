@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RESTfulAPI.Context;
 using RESTfulAPI.DTO;
+using RESTfulAPI.Interfaces;
 
 namespace RESTfulAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace RESTfulAPI.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ApiContext _context;
+        private readonly ITaskResource _resource;
 
-        public TaskController(ApiContext context)
+        public TaskController(ApiContext context, ITaskResource resource)
         {
             _context = context;
+            _resource = resource; 
         }
 
         // GET: api/tasks DONE
@@ -21,11 +24,11 @@ namespace RESTfulAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskShortDTO>>> GetTasks()
         {
-            if (_context.Tasks == null)
+            var taskList = await _resource.GetTasks();
+            if (taskList == null)
             {
                 return NotFound();
             }
-            var taskList = await _context.Tasks.ToListAsync();
             var taskShortList = new List<TaskShortDTO>();
             foreach (var task in taskList){
                 taskShortList.Add(new TaskShortDTO(task));
@@ -37,11 +40,7 @@ namespace RESTfulAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Task>> GetTask(int id)
         {
-            if (_context.Tasks == null)
-            {
-                return NotFound();
-            }
-            var task = await _context.Tasks.FindAsync(id);
+            var task = await _resource.GetTask(id);
             if (task == null)
             {
                 return NotFound();
@@ -59,10 +58,11 @@ namespace RESTfulAPI.Controllers
                     400);
             }
             var task = new Models.Task(newTask);
-            _context.Tasks.Add(task);
-            await _context.SaveChangesAsync();
+            if(await _resource.AddTask(task)){
+                return CreatedAtAction("GetTask", new { id = task.Id }, task);
+            }
+            return BadRequest();
 
-            return CreatedAtAction("GetTask", new { id = task.Id }, task);
         }
 
         // PUT: api/tasks/5 DONE?
@@ -74,52 +74,30 @@ namespace RESTfulAPI.Controllers
                     "Title given: "+newContent.Title+" Description given: "+newContent.Description,
                     400);
             }
-            var task = await _context.Tasks.FindAsync(id);
-            if (task == null)
-            {
-                return NotFound();
+            if(await _resource.EditTask(id, newContent)){
+                return NoContent();
             }
-            task.update(newContent);
-            _context.Entry(task).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync(); //*
-            return NoContent();
+            return NotFound();
         }
 
         // PATCH: api/tasks/5/update_status DONE?
         [HttpPatch("{id}/update_status")]
         public async Task<IActionResult> ChangeTaskStatus(int id)
         {
-            var task = await _context.Tasks.FindAsync(id);
-            if (task == null)
-            {
-                return NotFound();
+            if(await _resource.ChangeTaskStatus(id)){
+                return NoContent();
             }
-            task.changeStatus();
-            _context.Entry(task).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync(); //*
-            return NoContent();
+            return NotFound();
         }
 
         // DELETE: api/tasks/5 DONE?
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            if (_context.Tasks == null)
-            {
-                return NotFound();
+            if(await _resource.RemoveTask(id)){
+                return NoContent();
             }
-            var task = await _context.Tasks.FindAsync(id);
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            _context.Tasks.Remove(task);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return NotFound();
         }
         private bool IsTaskContentEmpty(string? title, string? description){
             return string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(description);

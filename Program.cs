@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RESTfulAPI.Context;
+using RESTfulAPI.Controllers;
+using RESTfulAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("dbName
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ITaskResource, TaskResource>();
 
 var app = builder.Build();
 
