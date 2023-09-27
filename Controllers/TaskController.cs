@@ -16,8 +16,7 @@ namespace RESTfulAPI.Controllers
             _context = context;
         }
 
-        // GET: api/tasks DONE
-        //Endpoint that returns list of all tasks with statuses
+        // GET: api/tasks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskShortDTO>>> GetTasks()
         {
@@ -33,7 +32,7 @@ namespace RESTfulAPI.Controllers
             return taskShortList;
         }
 
-        // GET: api/tasks/5 DONE
+        // GET: api/tasks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Task>> GetTask(int id)
         {
@@ -49,7 +48,7 @@ namespace RESTfulAPI.Controllers
             return task;
         }
 
-        // POST: api/tasks DONE?
+        // POST: api/tasks
         [HttpPost]
         public async Task<ActionResult<Models.Task>> PostTask(NewTask newTask)
         {
@@ -65,7 +64,7 @@ namespace RESTfulAPI.Controllers
             return CreatedAtAction("GetTask", new { id = task.Id }, task);
         }
 
-        // PUT: api/tasks/5 DONE?
+        // PUT: api/tasks/5
         [HttpPut("{id}")]
         public async Task<IActionResult> EditTask(int id, TaskDTO newContent)
         {
@@ -79,14 +78,14 @@ namespace RESTfulAPI.Controllers
             {
                 return NotFound();
             }
-            task.update(newContent);
+            task.Update(newContent);
             _context.Entry(task).State = EntityState.Modified;
 
             await _context.SaveChangesAsync(); //*
             return NoContent();
         }
 
-        // PATCH: api/tasks/5/update_status DONE?
+        // PATCH: api/tasks/5/update_status
         [HttpPatch("{id}/update_status")]
         public async Task<IActionResult> ChangeTaskStatus(int id)
         {
@@ -95,14 +94,14 @@ namespace RESTfulAPI.Controllers
             {
                 return NotFound();
             }
-            task.changeStatus();
+            task.ChangeStatus();
             _context.Entry(task).State = EntityState.Modified;
 
-            await _context.SaveChangesAsync(); //*
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
-        // DELETE: api/tasks/5 DONE?
+        // DELETE: api/tasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
