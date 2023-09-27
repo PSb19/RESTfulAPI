@@ -12,7 +12,7 @@ namespace RESTfulAPI.DTO
     public class TaskShortDTO{
         public int Id {get; set;}
         public string? Title {get; set;}
-        public bool IsDone {get; set;}
+        public bool? IsDone {get; set;}
 
         public TaskShortDTO(Models.Task task){
             Id = task.Id;
