@@ -10,12 +10,10 @@ namespace RESTfulAPI.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly ApiContext _context;
         private readonly ITaskResource _resource;
 
-        public TaskController(ApiContext context, ITaskResource resource)
+        public TaskController( ITaskResource resource)
         {
-            _context = context;
             _resource = resource; 
         }
 
