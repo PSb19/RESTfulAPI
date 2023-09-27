@@ -24,11 +24,11 @@ namespace RESTfulAPI.Controllers
             return task;
         }
 
-        public async Task<IEnumerable<Models.Task>?> GetTasks()
+        public async Task<IEnumerable<Models.Task>> GetTasks()
         {
             if (_context.Tasks == null)
             {
-                return null;
+                return new List<Models.Task>();
             }
             var taskList = await _context.Tasks.ToListAsync();
             return taskList;

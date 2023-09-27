@@ -6,7 +6,7 @@ namespace RESTfulAPI.Interfaces
     {
         Task<Models.Task?> GetTask(int id);
 
-        Task<IEnumerable<Models.Task>?> GetTasks();
+        Task<IEnumerable<Models.Task>> GetTasks();
 
         Task<bool> AddTask(Models.Task task);
 

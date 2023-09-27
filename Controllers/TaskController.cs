@@ -22,9 +22,9 @@ namespace RESTfulAPI.Controllers
         public async Task<ActionResult<IEnumerable<TaskShortDTO>>> GetTasks()
         {
             var taskList = await _resource.GetTasks();
-            if (taskList == null)
+            if (taskList.Count() == 0)
             {
-                return NotFound();
+                return NoContent();
             }
             var taskShortList = new List<TaskShortDTO>();
             foreach (var task in taskList){
