@@ -21,9 +21,9 @@ namespace RESTfulAPI.Models
         public void ChangeStatus(){
             if(IsDone.HasValue){
                 IsDone = !IsDone;
-                return;
+            }else{
+                IsDone = false;
             }
-            IsDone = false;
         }
     }
     

@@ -3,7 +3,7 @@ namespace RESTfulAPI.DTO
     public class TaskDTO{
         public string? Title {get; set;}
         public string? Description {get; set;}
-        public bool IsDone {get; set;}
+        public bool? IsDone {get; set;}
     }
     public class NewTask{
         public string? Title {get; set;}
