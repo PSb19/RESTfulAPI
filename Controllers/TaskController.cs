@@ -17,8 +17,7 @@ namespace RESTfulAPI.Controllers
             _resource = resource; 
         }
 
-        // GET: api/tasks DONE
-        //Endpoint that returns list of all tasks with statuses
+        // GET: api/tasks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskShortDTO>>> GetTasks()
         {
@@ -34,7 +33,7 @@ namespace RESTfulAPI.Controllers
             return taskShortList;
         }
 
-        // GET: api/tasks/5 DONE
+        // GET: api/tasks/5 
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Task>> GetTask(int id)
         {
@@ -46,7 +45,7 @@ namespace RESTfulAPI.Controllers
             return task;
         }
 
-        // POST: api/tasks DONE?
+        // POST: api/tasks 
         [HttpPost]
         public async Task<ActionResult<Models.Task>> PostTask(NewTask newTask)
         {
@@ -63,7 +62,7 @@ namespace RESTfulAPI.Controllers
 
         }
 
-        // PUT: api/tasks/5 DONE?
+        // PUT: api/tasks/5
         [HttpPut("{id}")]
         public async Task<IActionResult> EditTask(int id, TaskDTO newContent)
         {
@@ -78,7 +77,7 @@ namespace RESTfulAPI.Controllers
             return NotFound();
         }
 
-        // PATCH: api/tasks/5/update_status DONE?
+        // PATCH: api/tasks/5/update_status
         [HttpPatch("{id}/update_status")]
         public async Task<IActionResult> ChangeTaskStatus(int id)
         {
@@ -88,7 +87,7 @@ namespace RESTfulAPI.Controllers
             return NotFound();
         }
 
-        // DELETE: api/tasks/5 DONE?
+        // DELETE: api/tasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
@@ -99,7 +98,6 @@ namespace RESTfulAPI.Controllers
         }
         private bool IsTaskContentEmpty(string? title, string? description){
             return string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(description);
-
         }
     }
 }

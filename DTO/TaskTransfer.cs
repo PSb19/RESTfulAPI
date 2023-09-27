@@ -15,9 +15,9 @@ namespace RESTfulAPI.DTO
         public bool IsDone {get; set;}
 
         public TaskShortDTO(Models.Task task){
-            this.Id = task.Id;
-            this.Title = task.Title;
-            this.IsDone = task.IsDone;
+            Id = task.Id;
+            Title = task.Title;
+            IsDone = task.IsDone;
         }
     }
     

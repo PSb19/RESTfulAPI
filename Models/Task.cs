@@ -14,12 +14,12 @@ namespace RESTfulAPI.Models
             Description = newContent.Description;
             IsDone = false;
         }
-        public void update(TaskDTO newContent){
+        public void Update(TaskDTO newContent){
             Title = newContent.Title;
             Description = newContent.Description;
             IsDone = newContent.IsDone;
         }
-        public void changeStatus(){
+        public void ChangeStatus(){
             IsDone = !IsDone;
         }
     }

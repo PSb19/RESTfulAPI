@@ -51,7 +51,7 @@ namespace RESTfulAPI.Controllers
             if(task == null){
                 return false;
             }
-            task.changeStatus();
+            task.ChangeStatus();
             _context.Entry(task).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return true;
@@ -63,7 +63,7 @@ namespace RESTfulAPI.Controllers
             if(task == null){
                 return false;
             }
-            task.update(newContent);
+            task.Update(newContent);
             _context.Entry(task).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return true;
